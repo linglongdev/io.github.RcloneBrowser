@@ -1,0 +1,30 @@
+version: "1"
+
+package:
+  id: io.github.RcloneBrowser
+  name: RcloneBrowser
+  version: 1.8.0.1
+  kind: app
+  description: |
+    Simple cross platform GUI for rclone.
+
+command:
+  - /opt/apps/io.github.RcloneBrowser/files/bin/rclone-browser
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/kapitainsky/RcloneBrowser.git
+    version: master
+    commit: 45bf7411839b0919c488a3e3a0a5272b50c9fc7b
+
+build: |
+  cd /project/linglong/sources/RcloneBrowser.git
+  git apply ../../../0001-install.patch
+  mkdir build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install -j$(nproc --all)
